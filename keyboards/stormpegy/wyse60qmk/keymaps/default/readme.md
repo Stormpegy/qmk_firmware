@@ -1,0 +1,1 @@
+# The default keymap for wyse60qmk
