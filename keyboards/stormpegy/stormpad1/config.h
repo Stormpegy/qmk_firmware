@@ -4,12 +4,12 @@
 #include "config_common.h"
 
 /* USB Device descriptor parameter */
-#define VENDOR_ID       0xFEED
-#define PRODUCT_ID      0x6060
+#define VENDOR_ID       0x6d79 //stormpegy
+#define PRODUCT_ID      0x0002
 #define DEVICE_VER      0x0001
-#define MANUFACTURER    qmkbuilder
-#define PRODUCT         keyboard
-#define DESCRIPTION     Keyboard
+#define MANUFACTURER    Stormpegy
+#define PRODUCT         stormpad1
+#define DESCRIPTION     promicro based numpad, firmware based on the snagpad
 
 /* key matrix size */
 #define MATRIX_ROWS 5
