@@ -5,7 +5,7 @@
 
 /* USB Device descriptor parameter */
 #define VENDOR_ID       0x6d79 //stormpegy
-#define PRODUCT_ID      0x0002
+#define PRODUCT_ID      0x0001
 #define DEVICE_VER      0x0001
 #define MANUFACTURER    Stormpegy
 #define PRODUCT         stormpad1
