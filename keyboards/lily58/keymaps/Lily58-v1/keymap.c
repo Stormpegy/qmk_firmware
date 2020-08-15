@@ -8,17 +8,13 @@
   #include "ssd1306.h"
 #endif
 
-#ifdef RGBLIGHT_ENABLE
-extern rgblight_config_t rgblight_config;
-#endif
+char wpm_str[10];
 
 extern uint8_t is_master;
 
 #define _QWERTY 0
 #define _LOWER 1
 #define _RAISE 2
-
-char wpm_str[10];
 
 enum custom_keycodes {
   QWERTY = SAFE_RANGE,
@@ -30,49 +26,59 @@ enum custom_keycodes {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  
   [_QWERTY] = LAYOUT( \
-  KC_ESC,   KC_1,   KC_2,    KC_3,    KC_4,    KC_5,                     KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_BSPC, \
-  KC_TAB,   KC_Q,   KC_W,    KC_E,    KC_R,    KC_T,                     KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_MINS, \
-  KC_LCTRL, KC_A,   KC_S,    KC_D,    KC_F,    KC_G,                     KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_ENT, \
-  KC_LSFT,  KC_Z,   KC_X,    KC_C,    KC_V,    KC_B, KC_LEFT,  KC_RIGHT,  KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,  KC_RSFT, \
-                             KC_LGUI, KC_LALT,LOWER, KC_SPC,   KC_SPC,   RAISE,   KC_RALT, KC_QUOT \
-),
+      KC_ESC,   KC_1,   KC_2,    KC_3,    KC_4,    KC_5,                     KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_BSPC, \
+      KC_TAB,   KC_Q,   KC_W,    KC_E,    KC_R,    KC_T,                     KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_MINS, \
+      KC_LCTRL, KC_A,   KC_S,    KC_D,    KC_F,    KC_G,                     KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_ENT, \
+      KC_LSFT,  KC_Z,   KC_X,    KC_C,    KC_V,    KC_B, KC_LEFT,  KC_RIGHT,  KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,  KC_RSFT, \
+                                KC_LGUI, KC_LALT,LOWER, KC_SPC,   KC_SPC,   RAISE,   KC_RALT, KC_QUOT \
+  ),
 
-[_LOWER] = LAYOUT( \
-  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,                   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,\
-  KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,  KC_NO,                     KC_NO, KC_NO, KC_UP, KC_NO, KC_NO,  KC_NO, \
-  KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,  KC_NO,                   KC_NO, KC_LEFT, KC_DOWN, KC_RIGHT, KC_NO,  KC_NO, \
-  KC_LSFT, KC_NO, KC_NO, KC_NO, KC_NO,  KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,  KC_NO, \
-                             KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,  KC_NO, KC_NO, KC_NO\
-),
+  [_LOWER] = LAYOUT( \
+      KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,                   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,\
+      KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,  KC_NO,                     KC_NO, KC_NO, KC_UP, KC_NO, KC_NO,  KC_NO, \
+      KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,  KC_NO,                   KC_NO, KC_LEFT, KC_DOWN, KC_RIGHT, KC_NO,  KC_NO, \
+      KC_LSFT, KC_NO, KC_NO, KC_NO, KC_NO,  KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,  KC_NO, \
+                                KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,  KC_NO, KC_NO, KC_NO\
+  ),
 
-[_RAISE] = LAYOUT( \
-  KC_GRV, KC_NO, KC_NO, KC_NO, KC_NO,  KC_NO,                     KC_NO, KC_NO, KC_NO, KC_MINS, KC_EQL,  KC_DEL, \
-  KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,  KC_NO,                     KC_NO, KC_NO, KC_NO, KC_LBRC, KC_RBRC,  KC_BSLS, \
-  KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,  KC_NO,                   KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,  KC_NO, \
-  KC_LSFT, KC_NO, KC_NO, KC_NO, KC_NO,  KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,  KC_NO, \
-                             KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,  KC_NO, KC_NO, KC_NO\
-)
-
+  [_RAISE] = LAYOUT( \
+      KC_GRV, KC_NO, KC_NO, KC_NO, KC_NO,  KC_NO,                     KC_NO, KC_NO, KC_NO, KC_MINS, KC_EQL,  KC_DEL, \
+      KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,  KC_NO,                     KC_NO, KC_NO, KC_NO, KC_LBRC, KC_RBRC,  KC_BSLS, \
+      KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,  KC_NO,                   KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,  KC_NO, \
+      KC_LSFT, KC_NO, KC_NO, KC_NO, KC_NO,  KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,  KC_NO, \
+                                KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,  KC_NO, KC_NO, KC_NO\
+  )
 };
 
 #ifdef OLED_DRIVER_ENABLE
 
+oled_rotation_t oled_init_user(oled_rotation_t rotation) {
+  if (!is_keyboard_master())
+    return OLED_ROTATION_180;
+  return rotation;
+}
+
+const char *read_layer_state(void);
+const char *read_logo(void);
+void set_keylog(uint16_t keycode, keyrecord_t *record);
+const char *read_keylog(void);
+const char *read_keylogs(void);
+
 static void render_status(void) {
-    // Host Keyboard Layer Status
     oled_write_P(PSTR("Layer: "), false);
-    	switch (get_highest_layer(layer_state)) {
-        	case _QWERTY:
-            	oled_write_P(PSTR("QWERTY"), false);
+    switch (get_highest_layer(layer_state)) {
+        case _QWERTY:
+            oled_write_P(PSTR("Default"), false);
             break;
-        	case _LOWER:
-           		oled_write_P(PSTR("Numpad"), false);
+        case _LOWER:
+            oled_write_P(PSTR("Arrow Keys & F Keys (LOWER)"), false);
             break;
-        	case _RAISE:
-            	oled_write_P(PSTR("F Keys"), false);
+        case _RAISE:
+            oled_write_P(PSTR("Function Keys (RAISE)"), false);
             break;
-        	default:
-            	oled_write_P(PSTR("Undefined"), false);
-	}
+        default:
+            oled_write_P(PSTR("Undefined"), false);
+    }
 }
 
 #define IDLE_FRAMES 5
@@ -150,43 +156,40 @@ static void render_anim(void) {
         0,  0,252, 15,  1,  0,248, 14, 31,109,140,148,148,164,166,249,224,255,224,249,166,164,148,148,140,109, 31, 14,248,  0,  1, 15,252,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,128,112, 12,  3,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  1,  0, 64,160, 33, 34, 18, 17, 17, 17,  9,  8,  8,  8,  8,  4,  4,  4,  4,  4,  4,  2,  2,  2,  1,  1,  1,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,170,170,255,255,195,191,127,  3,127,191,195,255,255,170,170,  0,  0,  0,  0,
         0,  0, 31,120,192,  0, 15, 56,124,219,152, 20, 20, 18, 50,207,  3,255,  3,207, 50, 18, 20, 20,152,219,124, 56, 15,  0,192,120, 31, 16, 16, 16, 16,  8,  8,  8,  8,  8,  4,  4,  4,  4,  4,  2,  3,122,122,121,121,121,121, 57, 49,  2,  2,  4,  4,  8,  8,  8,136,136,135,128,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2,130,135, 31,  7,159,  7, 28,  7,159,  7,159,  7,  2,130,  0,  0,  0,  0,
         32, 16, 16, 16, 17, 11, 14, 12, 24, 16, 49, 35, 98,102, 68, 68, 71, 71, 71, 68, 68,102, 98, 35, 49, 16, 24, 12,  6,  3,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 48,120,124,254,255, 63,  7,  0,  0,  0,  0,255,255,127,127, 63, 62, 28, 24,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  7,  8,  8, 23,  0, 15,  1,  2,  1, 15,  0, 15,  2,  5,  8
-        }
+        },
     };
 
-
-
-	void animation_phase(void) {
+    void animation_phase(void) {
         if(get_current_wpm() <=IDLE_SPEED){
             current_idle_frame = (current_idle_frame + 1) % IDLE_FRAMES;
             oled_write_raw_P(idle[abs((IDLE_FRAMES-1)-current_idle_frame)], ANIM_SIZE);
-        }
-        if(get_current_wpm() >IDLE_SPEED && get_current_wpm() <TAP_SPEED){
+         }
+         if(get_current_wpm() >IDLE_SPEED && get_current_wpm() <TAP_SPEED){
              
-             oled_write_raw_P(prep[0], ANIM_SIZE);
-        if(get_current_wpm() >=TAP_SPEED){
+             oled_write_raw_P(prep[0], ANIM_SIZE); 
+         }
+         if(get_current_wpm() >=TAP_SPEED){
              current_tap_frame = (current_tap_frame + 1) % TAP_FRAMES;
              oled_write_raw_P(tap[abs((TAP_FRAMES-1)-current_tap_frame)], ANIM_SIZE);
-    		}
-    	}
+         }
     }
-
     if(get_current_wpm() != 000) {
-        oled_on(); 
+        oled_on();
         if(timer_elapsed32(anim_timer) > ANIM_FRAME_DURATION) {
             anim_timer = timer_read32();
             animation_phase();
         }
         anim_sleep = timer_read32();
     } else {
-	    if(timer_elapsed32(anim_sleep) > OLED_TIMEOUT) {
-	        oled_off();
-	    } else {
-	        if(timer_elapsed32(anim_timer) > ANIM_FRAME_DURATION) {
-	            anim_timer = timer_read32();
-	            animation_phase();
-	        }
-	    }
-	}
+        if(timer_elapsed32(anim_sleep) > OLED_TIMEOUT) {
+            oled_off();
+        } else {
+            if(timer_elapsed32(anim_timer) > ANIM_FRAME_DURATION) {
+                anim_timer = timer_read32();
+                animation_phase();
+            }
+        }
+    }
 }
 
 void oled_task_user(void) {
@@ -195,17 +198,17 @@ void oled_task_user(void) {
     } else {
         render_anim();
         oled_set_cursor(0,6);
-        sprintf(wpm_str, "     WPM: %03d", get_current_wpm());
+        sprintf(wpm_str, "       WPM: %03d", get_current_wpm());
         oled_write(wpm_str, false);
 
     }
 }
-
 #endif
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   if (record->event.pressed) {
-#ifdef SSD1306OLED
+#ifdef OLED_DRIVER_ENABLE
+    set_keylog(keycode, record);
 #endif
   }
 
@@ -237,14 +240,36 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 }
 
 #ifdef ENCODER_ENABLE
-
 void encoder_update_user(uint8_t index, bool clockwise) {
-    if (clockwise) {
-        tap_code(KC_PGDN);
-    } else {
-        tap_code(KC_PGUP);
+    switch(biton32(layer_state)){
+        case 1:
+            if (clockwise) {
+                tap_code16(C(KC_TAB));
+            } else {
+                tap_code16(S(C(KC_TAB)));
+            }
+            break;
+        default:
+            if (clockwise) {
+                if (!is_alt_tab_active) {
+                    is_alt_tab_active = true;
+                    register_code(KC_LALT);
+                }
+                alt_tab_timer = timer_read();
+                tap_code16(KC_TAB);
+            } else {
+                tap_code16(S(KC_TAB));
+                }
+            break;
     }
-  }
+}
+void matrix_scan_user(void) {
+    if (is_alt_tab_active) {
+        if (timer_elapsed(alt_tab_timer) > 1250) {
+            unregister_code(KC_LALT);
+            is_alt_tab_active = false;
+            }
+        }
+}
 
 #endif
-
